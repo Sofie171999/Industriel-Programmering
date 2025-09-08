@@ -11,7 +11,6 @@ int Control(int altitude)
     else if (altitude >0)
         thruster = 1;
     else {//
-        altitude = 0;
         thruster = 0;
     }
     
