@@ -1,0 +1,69 @@
+
+class Program
+{
+    enum Move { Rock, Paper, Scissors, Lizard, Spock }
+
+    static void Main()
+    {
+        int playerScore = 0;
+        int computerScore = 0;
+        int winningScore = 3;
+        Random rnd = new Random();
+
+        Console.WriteLine("Rock, Paper, Scissors, Lizard, Spock");
+        Console.WriteLine("Først til " + winningScore + " vinder\n");
+
+        while (playerScore < winningScore && computerScore < winningScore)
+        {
+            Console.WriteLine("Vælg: 0=Rock, 1=Paper, 2=Scissors, 3=Lizard, 4=Spock");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 4)
+            {
+                Console.WriteLine("Ugyldigt valg\n");
+                continue;
+            }
+
+            Move playerMove = (Move)choice;
+            Move computerMove = (Move)rnd.Next(0, 5);
+
+            Console.WriteLine("Du: " + playerMove + "  Computer: " + computerMove);
+
+            int result = Winner(playerMove, computerMove);
+            if (result == 0)
+            {
+                Console.WriteLine("Uafgjort\n");
+            }
+            else if (result == 1)
+            {
+                Console.WriteLine("Du vinder runden\n");
+                playerScore++;
+            }
+            else
+            {
+                Console.WriteLine("Computeren vinder runden\n");
+                computerScore++;
+            }
+
+            Console.WriteLine("Stilling: Du " + playerScore + " - " + computerScore + " Computer\n");
+        }
+
+        if (playerScore == winningScore) Console.WriteLine("Du vandt spillet!");
+        else Console.WriteLine("Computeren vandt spillet!");
+    }
+
+    static int Winner(Move p, Move c)
+    {
+        if (p == c) return 0;
+
+        if ((p == Move.Rock && (c == Move.Scissors || c == Move.Lizard)) ||
+            (p == Move.Paper && (c == Move.Rock || c == Move.Spock)) ||
+            (p == Move.Scissors && (c == Move.Paper || c == Move.Lizard)) ||
+            (p == Move.Lizard && (c == Move.Paper || c == Move.Spock)) ||
+            (p == Move.Spock && (c == Move.Rock || c == Move.Scissors)))
+        {
+            return 1; // spiller vinder
+        }
+
+        return -1; // computer vinder
+    }
+}
