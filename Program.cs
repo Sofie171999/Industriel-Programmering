@@ -1,60 +1,33 @@
-<html>
-<head>
-<title>Program.cs</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css">
-.s0 { color: #85c46c; font-style: italic;}
-.s1 { color: #d0d0d0;}
-.s2 { color: #bdbdbd;}
-.s3 { color: #c9a26d;}
-.s4 { color: #6c95eb;}
-.s5 { color: #ed94c0;}
-</style>
-</head>
-<body bgcolor="#262626">
-<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
-<tr><td><center>
-<font face="Arial, Helvetica" color="#000000">
-Program.cs</font>
-</center></td></tr></table>
-<pre><span class="s0">// See https://aka.ms/new-console-template for more information</span>
+﻿// See https://aka.ms/new-console-template for more information
 
-<span class="s1">Console</span><span class="s2">.</span><span class="s1">WriteLine</span><span class="s2">(</span><span class="s3">&quot;Hello, World!&quot;</span><span class="s2">);</span>
 
-<span class="s4">int </span><span class="s1">Control</span><span class="s2">(</span><span class="s4">int </span><span class="s1">altitude</span><span class="s2">)</span>
-<span class="s2">{</span>
-    <span class="s4">int </span><span class="s1">thruster </span><span class="s2">= </span><span class="s5">0</span><span class="s2">;</span>
+using System.Net.Sockets;
+using System.Text;
 
-    <span class="s4">if </span><span class="s2">(</span><span class="s1">altitude </span><span class="s2">&gt; </span><span class="s5">100</span><span class="s2">)</span>
-    <span class="s2">{</span>
-        <span class="s1">thruster </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s0">// Thruster OFF</span>
-    <span class="s2">}</span>
-    <span class="s4">else if </span><span class="s2">(</span><span class="s1">altitude </span><span class="s2">&gt; </span><span class="s5">0</span><span class="s2">)</span>
-    <span class="s2">{</span>
-        <span class="s1">thruster </span><span class="s2">= </span><span class="s5">1</span><span class="s2">; </span><span class="s0">// Thruster ON</span>
-    <span class="s2">}</span>
-    <span class="s4">else</span>
-    <span class="s2">{</span>
-        <span class="s1">thruster </span><span class="s2">= </span><span class="s5">0</span><span class="s2">; </span><span class="s0">// Thruster OFF</span>
-    <span class="s2">}</span>
+const string program = @"
+def f():
+  p1 = p[.3, -.3, .1, 0, -3.1415, 0]
+  p2 = p[.2, -.3, .1, 0, -3.1415, 0]
+  times = 0
+  while (times < 4):
+    movej(get_inverse_kin(p1))
+    movej(get_inverse_kin(p2))
+    times = times + 1
+  end
+end
+";
 
-    <span class="s4">return </span><span class="s1">thruster</span><span class="s2">;</span>
-<span class="s2">}</span>
-<span class="s4">void </span><span class="s1">Test</span><span class="s2">(</span><span class="s4">int </span><span class="s1">altitude</span><span class="s2">)</span>
-<span class="s2">{</span>
-    <span class="s4">int </span><span class="s1">thruster </span><span class="s2">= </span><span class="s1">Control</span><span class="s2">(</span><span class="s1">altitude</span><span class="s2">);</span>
-    <span class="s4">bool </span><span class="s1">behaviorCorrect </span><span class="s2">= (</span><span class="s1">altitude </span><span class="s2">&gt; </span><span class="s5">100 </span><span class="s2">&amp;&amp; </span><span class="s1">thruster </span><span class="s2">== </span><span class="s5">0</span><span class="s2">) ||</span>
-                           <span class="s2">(</span><span class="s1">altitude </span><span class="s4">is </span><span class="s2">&lt;= </span><span class="s5">100 </span><span class="s1">and </span><span class="s2">&gt; </span><span class="s5">0 </span><span class="s2">&amp;&amp; </span><span class="s1">thruster </span><span class="s2">== </span><span class="s5">1</span><span class="s2">) ||</span>
-                           <span class="s2">(</span><span class="s1">altitude </span><span class="s2">&lt;= </span><span class="s5">0 </span><span class="s2">&amp;&amp; </span><span class="s1">thruster </span><span class="s2">== </span><span class="s5">0</span><span class="s2">);</span>
-    <span class="s1">var behaviorCorrectIcon </span><span class="s2">= </span><span class="s1">behaviorCorrect ? </span><span class="s3">&quot;✅&quot; </span><span class="s1">: </span><span class="s3">&quot;❌&quot;</span><span class="s2">;</span>
-    <span class="s1">Console</span><span class="s2">.</span><span class="s1">WriteLine</span><span class="s2">(</span><span class="s3">$&quot;For altitude </span><span class="s2">{</span><span class="s1">altitude</span><span class="s2">}</span><span class="s3">, your thruster is </span><span class="s2">{</span><span class="s1">thruster</span><span class="s2">} </span><span class="s3">|</span><span class="s2">{</span><span class="s1">behaviorCorrectIcon</span><span class="s2">}</span><span class="s3">|&quot;</span><span class="s2">);</span>
-<span class="s2">}</span>
+const int urscriptPort = 30002, dashboardPort = 29999;
+const string IpAddress = "localhost";
 
-<span class="s1">Test</span><span class="s2">(</span><span class="s5">150</span><span class="s2">);</span>
-<span class="s1">Test</span><span class="s2">(</span><span class="s5">100</span><span class="s2">);</span>
-<span class="s1">Test</span><span class="s2">(</span><span class="s5">50</span><span class="s2">);</span>
-<span class="s1">Test</span><span class="s2">(</span><span class="s5">0</span><span class="s2">);</span>
-<span class="s1">Test</span><span class="s2">(-</span><span class="s5">1</span><span class="s2">);</span>
-</pre>
-</body>
-</html>
+void SendString(string host, int port, string message)
+{
+    using var client = new TcpClient(host, port);
+    using var stream = client.GetStream();
+    stream.Write(Encoding.ASCII.GetBytes(message));
+}
+
+SendString(IpAddress, dashboardPort, "brake release\n");
+SendString(IpAddress, urscriptPort, program);
+// To stop:
+// SendString(IpAddress, dashboardPort, "stop\n");
