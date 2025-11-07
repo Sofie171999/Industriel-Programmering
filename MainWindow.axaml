@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dg="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+        xmlns:vm="clr-namespace:Week6InventorySystem"
+        x:Class="Week6InventorySystem.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="False"
+        Title="Week6InventorySystem" Width="900" Height="650">
+
+    <!-- Added a row for status messages -->
+    <Grid ColumnDefinitions="1*,Auto,1*" RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <TextBlock Grid.ColumnSpan="3" Margin="12" FontSize="20" Text="Inventory Orders" />
+
+        <!-- Status messages (optional) -->
+        <Border Grid.Row="1" Grid.ColumnSpan="3" Margin="12" Padding="8" BorderBrush="LightGray" BorderThickness="1">
+            <ScrollViewer Height="80">
+                <TextBlock Text="{Binding StatusMessages}" TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Border>
+
+        <!-- Queued Orders -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Margin="12" Spacing="8">
+            <TextBlock FontWeight="Bold" Text="Queued orders" />
+            <dg:DataGrid ItemsSource="{Binding OrderBook.QueuedOrders}" CanUserAddRows="False" IsReadOnly="True">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="Time" Binding="{Binding Time}" />
+                    <dg:DataGridTextColumn Header="# Lines" Binding="{Binding OrderLines.Count}" />
+                    <dg:DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" />
+                </dg:DataGrid.Columns>
+            </dg:DataGrid>
+        </StackPanel>
+
+        <!-- Process button -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="12" Spacing="12" VerticalAlignment="Center">
+            <Button Content="Process next ➜"
+                    Command="{Binding ProcessNextOrderCommand}"
+                    MinWidth="160" />
+            <Button Content="Run grid demo (a→b→c→d)"
+                    Command="{Binding RunGridDemoCommand}"
+                    MinWidth="160" />
+        </StackPanel>
+
+        <!-- Processed Orders -->
+        <StackPanel Grid.Row="2" Grid.Column="2" Margin="12" Spacing="8">
+            <TextBlock FontWeight="Bold" Text="Processed orders" />
+            <dg:DataGrid ItemsSource="{Binding OrderBook.ProcessedOrders}" CanUserAddRows="False" IsReadOnly="True">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="Time" Binding="{Binding Time}" />
+                    <dg:DataGridTextColumn Header="# Lines" Binding="{Binding OrderLines.Count}" />
+                    <dg:DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" />
+                </dg:DataGrid.Columns>
+            </dg:DataGrid>
+        </StackPanel>
+
+        <!-- Low stock items (Activity 38 visual) -->
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Margin="12" Spacing="8">
+            <TextBlock FontWeight="Bold" Text="Low stock items (qty &lt; 5)" />
+            <dg:DataGrid ItemsSource="{Binding LowStock}" CanUserAddRows="False" IsReadOnly="True" Height="120" />
+        </StackPanel>
+
+        <!-- Total revenue -->
+        <Border Grid.Row="4" Grid.ColumnSpan="3" Margin="12" Padding="12"
+                BorderBrush="Gray" BorderThickness="1" CornerRadius="6">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                <TextBlock FontWeight="Bold" Text="Total revenue:" />
+                <TextBlock Text="{Binding OrderBook.TotalRevenue, StringFormat={}{0:C}}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
